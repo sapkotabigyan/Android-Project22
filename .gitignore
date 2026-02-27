@@ -1,0 +1,37 @@
+# Android Studio / IntelliJ
+*.iml
+.gradle
+/local.properties
+/.idea/caches
+/.idea/libraries
+/.idea/modules.xml
+/.idea/workspace.xml
+/.idea/navEditor.xml
+/.idea/assetWizardSettings.xml
+/.idea/deploymentTargetSelector.xml
+/.idea/vcs.xml
+/.idea/kotlinc.xml
+/.idea/markdown.xml
+/.idea/compiler.xml
+/.idea/.name
+.DS_Store
+/build
+/captures
+.externalNativeBuild
+.cxx
+
+# Gradle Wrapper
+!gradle/wrapper/gradle-wrapper.jar
+!gradle/wrapper/gradle-wrapper.properties
+
+# Kotlin
+.kotlin/
+
+# Build outputs
+*.apk
+*.aar
+*.ap_
+*.dex
+
+# Log files
+*.log
