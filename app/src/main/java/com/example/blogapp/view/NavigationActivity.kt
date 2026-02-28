@@ -1,6 +1,5 @@
 package com.example.blogapp.view
 
-import android.app.Activity
 import android.content.Intent
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -9,6 +8,8 @@ import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ExitToApp
 import androidx.compose.material.icons.filled.*
 import androidx.compose.ui.Alignment
 import androidx.compose.material3.*
@@ -20,12 +21,9 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.compose.ui.text.font.FontWeight
 import com.example.blogapp.view.pages.*
-import com.example.blogapp.viewModel.AdminViewModel
 import com.example.blogapp.viewModel.CartViewModel
-import com.example.blogapp.viewModel.ProductViewModel
-import com.example.blogapp.viewModel.UserViewModel
 import com.example.blogapp.repository.ProductRepositoryImpl
-import com.example.blogapp.repository.UserRepositoryImpl
+import com.example.blogapp.viewModel.ProductViewModel
 import com.example.blogapp.model.ProductModel
 import com.example.blogapp.view.theme.CraftedTheme
 
@@ -49,10 +47,6 @@ fun MainNavigation() {
     var showWishlistScreen by remember { mutableStateOf(false) }
     
     val context = LocalContext.current
-    val activity = context as Activity
-    
-    val productViewModel = remember { ProductViewModel(ProductRepositoryImpl()) }
-    val userViewModel = remember { UserViewModel(UserRepositoryImpl()) }
     val cartViewModel = remember { CartViewModel() }
     
     val bottomNavItems = listOf(
@@ -98,7 +92,7 @@ fun MainNavigation() {
                             showWishlistScreen = false
                         }) {
                             Icon(
-                                Icons.Default.ArrowBack,
+                                Icons.AutoMirrored.Filled.ArrowBack,
                                 contentDescription = "Back",
                                 tint = Color(0xFF8B4513)
                             )
@@ -114,7 +108,7 @@ fun MainNavigation() {
                         }
                     ) {
                         Icon(
-                            Icons.Default.ExitToApp,
+                            Icons.AutoMirrored.Filled.ExitToApp,
                             contentDescription = "Logout",
                             tint = Color(0xFF8B4513)
                         )
