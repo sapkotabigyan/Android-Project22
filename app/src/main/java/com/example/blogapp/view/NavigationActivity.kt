@@ -46,6 +46,7 @@ fun MainNavigation() {
     var selectedIndex by remember { mutableStateOf(0) }
     var selectedProduct by remember { mutableStateOf<ProductModel?>(null) }
     var showOrdersScreen by remember { mutableStateOf(false) }
+    var showWishlistScreen by remember { mutableStateOf(false) }
     
     val context = LocalContext.current
     val activity = context as Activity
@@ -81,6 +82,7 @@ fun MainNavigation() {
                         text = when {
                             selectedProduct != null -> "Product Details"
                             showOrdersScreen -> "My Orders"
+                            showWishlistScreen -> "My Wishlist"
                             else -> "Craft Work Nepal"
                         },
                         fontSize = 20.sp,
@@ -89,10 +91,11 @@ fun MainNavigation() {
                     )
                 },
                 navigationIcon = {
-                    if (selectedProduct != null || showOrdersScreen) {
+                    if (selectedProduct != null || showOrdersScreen || showWishlistScreen) {
                         IconButton(onClick = {
                             selectedProduct = null
                             showOrdersScreen = false
+                            showWishlistScreen = false
                         }) {
                             Icon(
                                 Icons.Default.ArrowBack,
@@ -123,7 +126,7 @@ fun MainNavigation() {
             )
         },
         bottomBar = {
-            if (selectedProduct == null && !showOrdersScreen) {
+            if (selectedProduct == null && !showOrdersScreen && !showWishlistScreen) {
                 NavigationBar(
                     containerColor = Color.White,
                     contentColor = Color(0xFF8B4513)
@@ -182,6 +185,9 @@ fun MainNavigation() {
                 showOrdersScreen -> {
                     OrdersScreen()
                 }
+                showWishlistScreen -> {
+                    WishlistScreen()
+                }
                 else -> {
                     when (selectedIndex) {
                         0 -> HomeScreen(
@@ -190,7 +196,8 @@ fun MainNavigation() {
                         1 -> SearchScreen()
                         2 -> CartScreen(cartViewModel = cartViewModel)
                         3 -> ProfileScreen(
-                            onNavigateToOrders = { showOrdersScreen = true }
+                            onNavigateToOrders = { showOrdersScreen = true },
+                            onNavigateToWishlist = { showWishlistScreen = true }
                         )
                     }
                 }

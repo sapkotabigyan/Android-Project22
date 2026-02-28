@@ -28,8 +28,9 @@ class ProductRepositoryImpl: ProductRepository{
         )
     )
 
+    private val executor = Executors.newSingleThreadExecutor()
+
     override fun uploadImage(context: Context, imageUri: Uri, callback: (String?) -> Unit) {
-        val executor = Executors.newSingleThreadExecutor()
         executor.execute {
             try {
                 val inputStream: InputStream? = context.contentResolver.openInputStream(imageUri)
@@ -108,13 +109,15 @@ class ProductRepositoryImpl: ProductRepository{
         productId: String,
         callback: (Boolean, String, ProductModel?) -> Unit
     ) {
-        ref.child(productId).addValueEventListener(object : ValueEventListener {
+        ref.child(productId).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                if(snapshot.exists()){
                    var products=snapshot.getValue(ProductModel::class.java)
                    if (products !=null){
                        callback(true,"Product fetched",products)
                    }
+               } else {
+                   callback(false, "Product not found", null)
                }
             }
 
@@ -125,7 +128,7 @@ class ProductRepositoryImpl: ProductRepository{
     }
 
     override fun getAllProduct(callback: (Boolean, String, List<ProductModel?>) -> Unit) {
-        ref.addValueEventListener(object : ValueEventListener {
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if(snapshot.exists()){
                     val allProducts = mutableListOf<ProductModel>()
@@ -159,19 +162,4 @@ class ProductRepositoryImpl: ProductRepository{
             }
         }
     }
-
-//    override fun uploadImage(
-//        context: Context,
-//        imageUri: Uri,
-//        callback: (String?) -> Unit
-//    ) {
-//        TODO("Not yet implemented")
-//    }
-//
-//    override fun getFileNameFromUri(
-//        context: Context,
-//        uri: Uri
-//    ): String? {
-//        TODO("Not yet implemented")
-//    }
 }

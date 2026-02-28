@@ -87,7 +87,7 @@ class UserRepositoryImpl: UserRepository {
                 callBack(true,"Profile updated")
             }
             else{
-                callBack(true,"${it.exception?.message}")
+                callBack(false,"${it.exception?.message}")
 
             }
         
@@ -102,13 +102,15 @@ class UserRepositoryImpl: UserRepository {
         userId: String,
         callBack: (Boolean, String, UserModel?) -> Unit
     ) {
-        ref.child(userId).addValueEventListener(object : ValueEventListener {
+        ref.child(userId).addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()){
                     var users=snapshot.getValue(UserModel::class.java)
                     if(users !=null){
                         callBack(true,"User fetched",users)
                     }
+                } else {
+                    callBack(false, "User not found", null)
                 }
 
             }
@@ -121,7 +123,7 @@ class UserRepositoryImpl: UserRepository {
     }
 
     override fun getAllUsers(callBack: (Boolean, String, List<UserModel?>) -> Unit) {
-        ref.addValueEventListener(object : ValueEventListener {
+        ref.addListenerForSingleValueEvent(object : ValueEventListener {
             override fun onDataChange(snapshot: DataSnapshot) {
                 if (snapshot.exists()) {
                     val allUsers = mutableListOf<UserModel>()
@@ -148,7 +150,7 @@ class UserRepositoryImpl: UserRepository {
             auth.signOut()
             callback(true,"Logout Successfully")
         }catch (e: Exception){
-            callback(true,"${e.message}")
+            callback(false,"${e.message}")
         }
         
     }
