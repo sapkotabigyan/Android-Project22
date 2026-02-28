@@ -53,7 +53,7 @@ import androidx.compose.ui.draw.clip
 import coil.compose.rememberAsyncImagePainter
 
 //class AddProductActivity : ComponentActivity() {
-//    override fun onCreate(savedInstanceState: Bundle?) {
+//    override  onCreate(savedInstanceState: Bundle?) {
 //        super.onCreate(savedInstanceState)
 //        enableEdgeToEdge()
 //        setContent {
